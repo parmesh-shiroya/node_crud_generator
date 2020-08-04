@@ -2,7 +2,7 @@ let roles = ["User", "Admin"]
 
 
 
-let rolesSchema = {
+exports.rolesSchema = {
 
     name: "role",
     desciption: "roles All the user",
@@ -35,7 +35,7 @@ Every collection accepts below attributes
     maxLength
 */
 
-let userSchema =
+exports.userSchema =
 {
     name: "user",
     desciption: "Contains All the user",

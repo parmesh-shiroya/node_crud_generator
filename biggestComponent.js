@@ -12,7 +12,7 @@ minLength,
 maxLength
 */
 
-let biggestSchema =
+exports.biggestSchema =
 {
     name: "biggest",
     desciption: "Biggest component to test all thing",

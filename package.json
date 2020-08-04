@@ -1,0 +1,25 @@
+{
+  "name": "latest_generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "biggestComponent.js",
+  "dependencies": {
+    "fs-extra": "^9.0.1",
+    "lodash": "^4.17.19"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parmesh-shiroya/node_crud_generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/parmesh-shiroya/node_crud_generator/issues"
+  },
+  "homepage": "https://github.com/parmesh-shiroya/node_crud_generator#readme"
+}
