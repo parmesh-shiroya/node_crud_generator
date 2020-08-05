@@ -1,0 +1,28 @@
+const router = require('express').Router();
+const advancedResults = require('../../middleware/advancedResults');
+const { protect, authorize } = require('../../middleware/auth');
+const {
+  get{{ComponentsName}},
+  get{{ComponentName}},
+  create{{ComponentName}},
+  update{{ComponentName}},
+  delete{{ComponentName}}
+} = require('./{{ComponentName}}.controller.js');
+const {{ModelName}} = require('./{{ComponentName}}.schema.js');
+
+
+
+router
+  .route('/')
+  .get(advancedResults({{ModelName}}), get{{ComponentsName}})
+  .post(create{{ComponentName}});
+
+router
+  .route('/:id')
+  .get(get{{ComponentName}})
+  .put(update{{ComponentName}})
+  .delete(delete{{ComponentName}});
+
+
+  
+module.exports = router;

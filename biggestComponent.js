@@ -35,8 +35,8 @@ exports.biggestSchema =
         fieldDate: { type: "date", format: "yyyy-MM-dd" },
         fieldDate2: { type: "date" },
         fieldDate3: { type: "date", fromFormat: "yyyy-MM-dd" },
-        fieldSchema: { type: "schema", schema: "user" },
-        fieldSchema2: { type: ["schema"], schema: "user" },
+        // fieldSchema: { type: "schema", schema: "user" },
+        // fieldSchema2: { type: ["schema"], schema: "user" },
         fieldSchema3: {
             type: "schema",
             schema: {

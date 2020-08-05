@@ -1,5 +1,9 @@
 const _ = require('lodash')
 const fse = require("fs-extra")
+const pluralize = require('pluralize')
+const { Ucfirst, Lcfirst, replaceQText } = require("./helper")
+const { getSchemaJson } = require("./component/schemaGenerator")
+const { getFunction, getOneFunction, createFunction, updateFunction, deleteFunction } = require("./component/controllerMethods")
 _.templateSettings.interpolate = /{ ?{([\s\S]+?)} ?}/g;
 
 let backendTemplatePath = process.cwd() + "/template/back-end";
@@ -70,12 +74,74 @@ let genConfigFiles = () => {
 }
 
 // Generate components
-// Generate constant
+const getComponent = (data) => {
+
+    generateComponent(data)
+
+    generateSchema(data)
+    generateRouter(data)
+}
+
 //Generate component
-// generate controllr
+const generateComponent = (data) => {
+    let template = fse.readFileSync(`${backendTemplatePath}/components/component/component.controller.js.template`, 'utf8')
+
+    let methods = `
+    ${getFunction}
+
+    ${getOneFunction}
+
+    ${createFunction}
+
+    ${updateFunction}
+
+    ${deleteFunction}
+    `
+
+    let templateData = {
+
+        ModelName: Ucfirst(data.name),
+        componentsName: pluralize(data.name),
+        ComponentsName: Ucfirst(pluralize(data.name)),
+        componentName: pluralize.singular(data.name),
+        ComponentName: Ucfirst(pluralize.singular(data.name)),
+
+
+    }
+    templateData.appComponentMethods = _.template(methods)(templateData)
+
+    fse.outputFile(`${outputBackendPath}/components/${Lcfirst(data.name)}/${Ucfirst(pluralize.singular(data.name))}.controller.js`, _.template(template)(templateData))
+}
+
+
+// Generate schema
+const generateSchema = (data) => {
+    let template = fse.readFileSync(`${backendTemplatePath}/components/component/component.schema.js.template`, 'utf8')
+    let templateData = {
+        ComponentName: Ucfirst(data.name),
+        schemaJson: replaceQText(JSON.stringify(getSchemaJson(data.schema), null, 4)),
+        schemaOptions: JSON.stringify(data.options || {}, null, 4),
+        collectionName: data.collectionName || data.name
+    }
+
+    fse.outputFile(`${outputBackendPath}/components/${Lcfirst(data.name)}/${Ucfirst(pluralize.singular(data.name))}.schema.js`, _.template(template)(templateData))
+}
+
+// Generate Router
+const generateRouter = (data) => {
+    let template = fse.readFileSync(`${backendTemplatePath}/components/component/index.js.template`, 'utf8')
+    let templateData = {
+        ComponentsName: Ucfirst(pluralize(data.name)),
+        ModelName: Ucfirst(data.name),
+        ComponentName: Ucfirst(pluralize.singular(data.name)),
+    }
+
+    fse.outputFile(`${outputBackendPath}/components/${Lcfirst(data.name)}/index.js`, _.template(template)(templateData))
+
+}
+// Generate constant
 //generate router
-//generate model
 //generate dal
 
 
-module.exports = { genPackageJson, genGitignore, genServerJS, getUtils, genMiddlewares, genConfigFiles }
+module.exports = { genPackageJson, genGitignore, genServerJS, getUtils, genMiddlewares, genConfigFiles, getComponent }

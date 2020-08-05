@@ -1,0 +1,8 @@
+const mongoose = require('mongoose');
+
+
+const {{ComponentName}}Schema = new mongoose.Schema(
+  {{schemaJson}},{{schemaOptions}}
+);
+
+module.exports = mongoose.model('{{collectionName}}', {{ComponentName}}Schema);
